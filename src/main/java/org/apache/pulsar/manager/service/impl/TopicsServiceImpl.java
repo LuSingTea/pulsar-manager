@@ -261,7 +261,7 @@ public class TopicsServiceImpl implements TopicsService {
                 message.put("batch", false);
             }
             if (msg.getProperties().size() > 0) {
-                msg.getProperties().forEach((k, v) -> message.put(k, v));
+                message.putAll(msg.getProperties());
             }
             message.put("data", msg.getData());
             mapList.add(message);

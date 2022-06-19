@@ -48,14 +48,14 @@ public class UsersRepositoryImplTest {
         userInfoEntity.setLocation("bj");
         userInfoEntity.setDescription("test-description");
         userInfoEntity.setName("test-user");
-        userInfoEntity.setExpire(157900045678l);
+        userInfoEntity.setExpire(157900045678L);
         userInfoEntity.setPhoneNumber("1356789023456");
         userInfoEntity.setPassword(DigestUtils.sha256Hex("hello-world"));
     }
 
     private void validateUser(UserInfoEntity user, boolean list) {
         Assert.assertEquals("test-user", user.getName());
-        Assert.assertEquals(157900045678l, user.getExpire());
+        Assert.assertEquals(157900045678L, user.getExpire());
         Assert.assertEquals("1356789023456", user.getPhoneNumber());
         Assert.assertEquals("test-description", user.getDescription());
         Assert.assertEquals("bj", user.getLocation());

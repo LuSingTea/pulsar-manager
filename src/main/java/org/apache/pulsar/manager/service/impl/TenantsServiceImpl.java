@@ -135,7 +135,7 @@ public class TenantsServiceImpl implements TenantsService {
     }
 
     public Map<String, String> createTenant(String tenant, String role, String cluster, String requestHost) {
-        TenantInfo tenantInfo = new TenantInfo(Sets.newHashSet(role), Sets.newHashSet(cluster));
+        TenantInfo tenantInfo = TenantInfo.builder().adminRoles(Sets.newHashSet(role)).allowedClusters(Sets.newHashSet(cluster)).build();
         Map<String, String> result = Maps.newHashMap();
         try {
             pulsarAdminService.tenants(requestHost).createTenant(tenant, tenantInfo);

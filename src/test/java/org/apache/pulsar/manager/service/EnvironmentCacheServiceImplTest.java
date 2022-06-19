@@ -97,14 +97,11 @@ public class EnvironmentCacheServiceImplTest {
         emptyEnvironment.setBookie("http://empty_env:8000");
 
         // setup 3 clusters
-        cluster1_0 = new ClusterData();
-        cluster1_0.setServiceUrl("http://cluster1_0:8080");
+        cluster1_0 = ClusterData.builder().serviceUrl("http://cluster1_0:8080").build();
 
-        cluster2_0 = new ClusterData();
-        cluster2_0.setServiceUrl("http://cluster2_0:8080");
+        cluster2_0 = ClusterData.builder().serviceUrl("http://cluster2_0:8080").build();
 
-        cluster2_1 = new ClusterData();
-        cluster2_1.setServiceUrl("http://cluster2_1:8080");
+        cluster2_1 = ClusterData.builder().serviceUrl("http://cluster2_1:8080").build();
 
         Mockito.when(pulsarAdminService.clusters(emptyEnvironment.getBroker())).thenReturn(emptyClusters);
         Mockito.when(emptyClusters.getClusters()).thenReturn(Arrays.asList());

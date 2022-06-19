@@ -237,7 +237,7 @@ public class BrokerStatsServiceImplTest {
         Mockito.when(pulsarAdminService.brokerStats(serviceUrl)).thenReturn(stats);
         JsonObject data = new Gson().fromJson(testData, JsonObject.class);
         Mockito.when(stats.getTopics())
-                .thenReturn(data);
+                .thenReturn(data.toString());
 
         brokerStatsService.collectStatsToDB(
             System.currentTimeMillis() / 1000,
@@ -313,7 +313,7 @@ public class BrokerStatsServiceImplTest {
         Mockito.when(pulsarAdminService.brokerStats(serviceUrl)).thenReturn(stats);
         JsonObject data = new Gson().fromJson(testData, JsonObject.class);
         Mockito.when(stats.getTopics())
-                .thenReturn(data);
+                .thenReturn(data.toString());
 
         brokerStatsService.collectStatsToDB(
                 System.currentTimeMillis() / 1000,

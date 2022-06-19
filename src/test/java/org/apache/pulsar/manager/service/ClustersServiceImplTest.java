@@ -31,11 +31,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
@@ -62,8 +58,8 @@ public class ClustersServiceImplTest {
     @Test
     public void clusterServiceImplTest() throws PulsarAdminException {
         Mockito.when(pulsarAdminService.clusters("http://localhost:8080")).thenReturn(clusters);
-        Mockito.when(pulsarAdminService.clusters("http://localhost:8080").getClusters()).thenReturn(Arrays.asList("standalone"));
-        ClusterData standaloneClusterData = new ClusterData("http://broker-1:8080", null, "pulsar://broker-1:6650", null);
+        Mockito.when(pulsarAdminService.clusters("http://localhost:8080").getClusters()).thenReturn(Collections.singletonList("standalone"));
+        ClusterData standaloneClusterData = ClusterData.builder().serviceUrl("http://broker-1:8080").brokerServiceUrl("pulsar://broker-1:6650").build();
         Mockito.when(pulsarAdminService.clusters("http://localhost:8080").getCluster("standalone")).thenReturn(standaloneClusterData);
 
         Map<String, Object> brokerEntity = Maps.newHashMap();
@@ -89,7 +85,7 @@ public class ClustersServiceImplTest {
     @Test
     public void getClusterByAnyBroker() throws PulsarAdminException  {
         Mockito.when(pulsarAdminService.clusters("http://localhost:8080")).thenReturn(clusters);
-        Mockito.when(pulsarAdminService.clusters("http://localhost:8080").getClusters()).thenReturn(Arrays.asList("standalone"));
+        Mockito.when(pulsarAdminService.clusters("http://localhost:8080").getClusters()).thenReturn(Collections.singletonList("standalone"));
 
         List<String> clusterList = clustersService.getClusterByAnyBroker("http://localhost:8080");
         Assert.assertEquals("standalone", clusterList.get(0));

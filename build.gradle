@@ -14,7 +14,7 @@
 
 buildscript {
   ext {
-    springBootVersion = '2.0.2.RELEASE'
+    springBootVersion = '2.2.10.RELEASE'
   }
   repositories {
     mavenCentral()
@@ -102,11 +102,9 @@ jar {
 ext['log4j2.version'] = '2.17.1'
 
 dependencies {
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: springBootVersion
+    implementation 'io.netty:netty-all:4.1.77.Final'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
     compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-zuul', version: springBootVersion
-    compile group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: springMybatisVersion
-    compile group: 'com.github.pagehelper', name: 'pagehelper', version: pagehelperVersion
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: springBootVersion
     compile group: 'org.postgresql', name: 'postgresql', version: postgresqlVersion
     compile (group: 'org.herddb', name: 'herddb-jdbc', version: herddbVersion) {
@@ -142,7 +140,7 @@ dependencies {
     compile group: 'org.glassfish.jersey.core', name: 'jersey-client', version: jerseyVersion
     compile group: 'org.glassfish.jersey.inject', name: 'jersey-hk2', version: jerseyVersion
     compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: jerseyVersion
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: springBootVersion
     compile group: 'org.springframework.security', name: 'spring-security-config'
     compile group: 'org.casbin', name: 'casdoor-spring-boot-starter', version: '1.2.0'
     compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion

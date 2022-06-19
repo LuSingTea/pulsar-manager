@@ -19,10 +19,7 @@ import org.apache.pulsar.common.policies.data.FailureDomain;
 import org.apache.pulsar.manager.PulsarManagerApplication;
 import org.apache.pulsar.manager.profiles.HerdDBTestProfile;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -59,8 +56,7 @@ public class BrokersServiceImplTest {
 
     @Test
     public void brokersServiceTest() throws Exception{
-        FailureDomain fdomain = new FailureDomain();
-        fdomain.setBrokers(new HashSet<String>(Arrays.asList("broker-1:8080")));
+        FailureDomain fdomain = FailureDomain.builder().brokers(new HashSet<>(Collections.singletonList("broker-1:8080"))).build();
         Map<String, FailureDomain> fMap = new HashMap<>();
         fMap.put("fdomain-1",fdomain);
         Mockito.when(pulsarAdminService.clusters("http://localhost:8080")).thenReturn(clusters);
@@ -69,7 +65,7 @@ public class BrokersServiceImplTest {
 
         Mockito.when(pulsarAdminService.brokers("http://localhost:8080")).thenReturn(brokers);
         Mockito.when(brokers.getActiveBrokers("standalone"))
-                .thenReturn(Arrays.asList("broker-1:8080"));
+                .thenReturn(Collections.singletonList("broker-1:8080"));
 
         Map<String, Object> result = brokersService.getBrokersList(
                 1, 1, "standalone", "http://localhost:8080");

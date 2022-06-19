@@ -30,6 +30,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @Component
@@ -102,7 +103,7 @@ public class AdminHandlerInterceptor extends HandlerInterceptorAdapter {
             return false;
         }
         if (requestUri.startsWith("/admin/v2/tenants")) {
-            if (request.getMethod() != "GET") {
+            if (!Objects.equals(request.getMethod(), "GET")) {
                 map.put("message", "This user no permissions for this resource");
                 response.setStatus(401);
                 response.getWriter().append(gson.toJson(map));

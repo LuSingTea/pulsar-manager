@@ -52,4 +52,3 @@ task npmBuildProd(type: NpmTask) {
 
 
 assemble.dependsOn npm_run_build
-

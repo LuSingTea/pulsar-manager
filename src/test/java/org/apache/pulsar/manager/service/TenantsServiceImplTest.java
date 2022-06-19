@@ -65,7 +65,7 @@ public class TenantsServiceImplTest {
     public void tenantsServiceImplTest() throws PulsarAdminException {
         Mockito.when(pulsarAdminService.tenants("http://localhost:8080")).thenReturn(tenants);
         Mockito.when(tenants.getTenants()).thenReturn(Arrays.asList("public"));
-        TenantInfo tenantInfo = new TenantInfo(Sets.newHashSet("admin"), Sets.newHashSet("standalone"));
+        TenantInfo tenantInfo = TenantInfo.builder().adminRoles(Sets.newHashSet("admin")).allowedClusters(Sets.newHashSet("standalone")).build();
         Mockito.when(tenants.getTenantInfo("public")).thenReturn(tenantInfo);
         Mockito.when(pulsarAdminService.namespaces("http://localhost:8080")).thenReturn(namespaces);
         Mockito.when(namespaces.getNamespaces("public")).thenReturn(Arrays.asList("public/default"));
@@ -90,7 +90,7 @@ public class TenantsServiceImplTest {
         String role = "test-role";
         String cluster = "test-cluster";
         Mockito.when(pulsarAdminService.tenants("http://localhost:8080")).thenReturn(tenants);
-        TenantInfo tenantInfo = new TenantInfo(Sets.newHashSet(role), Sets.newHashSet(cluster));
+        TenantInfo tenantInfo = TenantInfo.builder().adminRoles(Sets.newHashSet(role)).allowedClusters(Sets.newHashSet(cluster)).build();
         Mockito.doNothing().when(tenants).createTenant(tenant, tenantInfo);
         Map<String, String> createTenantResult =  tenantsService.createTenant(
                 tenant, role, cluster, "http://localhost:8080");
