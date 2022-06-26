@@ -109,7 +109,7 @@ public class EnvironmentForward extends ZuulFilter {
         ctx.put(REQUEST_URI_KEY, request.getServletPath());
         try {
             Map<String, String> authHeader = pulsarAdminService.getAuthHeader(serviceUrl);
-            authHeader.entrySet().forEach(entry -> ctx.addZuulRequestHeader(entry.getKey(), entry.getValue()));
+            authHeader.forEach(ctx::addZuulRequestHeader);
             ctx.setRouteHost(new URL(serviceUrl));
             pulsarEvent.parsePulsarEvent(request.getServletPath(), request);
             log.info("Forward request to {} @ path {}",

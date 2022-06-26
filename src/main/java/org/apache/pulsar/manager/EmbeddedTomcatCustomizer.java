@@ -13,24 +13,6 @@
  */
 package org.apache.pulsar.manager;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-import javax.servlet.ServletException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.Context;
 import org.apache.catalina.loader.WebappLoader;
@@ -42,6 +24,17 @@ import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerF
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 /**
  * Customize Tomcat Service
@@ -118,7 +111,7 @@ public class EmbeddedTomcatCustomizer implements
 
     public static List<File> unZip(File war, File outDir) throws IOException {
         log.info("Unzipping " + war.getAbsolutePath() + " to " + outDir);
-        try (ZipInputStream zipStream = new ZipInputStream(new FileInputStream(war), StandardCharsets.UTF_8);) {
+        try (ZipInputStream zipStream = new ZipInputStream(Files.newInputStream(war.toPath()), StandardCharsets.UTF_8);) {
             ZipEntry entry = zipStream.getNextEntry();
             List<File> listFiles = new ArrayList<>();
             while (entry != null) {
