@@ -13,16 +13,18 @@
  */
 
 buildscript {
-  ext {
-    springBootVersion = '2.2.10.RELEASE'
-  }
-  repositories {
-    mavenCentral()
-    mavenLocal()
-  }
-  dependencies {
-    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-  }
+    ext {
+        springBootVersion = '2.3.12.RELEASE'
+    }
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter'}
+        mavenCentral()
+        mavenLocal()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
 }
 
 plugins {
@@ -34,6 +36,8 @@ plugins {
 }
 
 repositories {
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter'}
     mavenCentral()
     mavenLocal()
 }
@@ -46,7 +50,7 @@ dependencies {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.8.1'
+    gradleVersion = '4.10.3'
 }
 
 apply from: 'gradle/license.gradle'
@@ -66,16 +70,17 @@ task licenseCheckNode(type: com.hierynomus.gradle.license.tasks.LicenseCheck) {
 }
 
 // Add VERSION
-task incrementVersion<<{
+task incrementVersion << {
     new File(projectDir, "VERSION").text = version
 }
 
 dependencyManagement {
-  imports {
-    mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
-    mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Finchley.SR2'
-  }
-  applyMavenExclusions = false
+    imports {
+        mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR12'
+        mavenBom 'io.netty:netty-bom:4.1.77.Final'
+    }
+    applyMavenExclusions = false
 }
 
 distributions {
@@ -99,17 +104,22 @@ jar {
     }
 }
 
-ext['log4j2.version'] = '2.17.1'
+ext['log4j2.version'] = '2.17.2'
+configurations {
+    compile.exclude group: 'org.slf4j', module: 'slf4j-reload4j'
+}
 
 dependencies {
-    implementation 'io.netty:netty-all:4.1.77.Final'
+    compile group: 'io.netty', name: 'netty-all', version: nettyVersion
+    compile group: 'io.netty', name: 'netty-resolver-dns', version: nettyVersion
+    compile group: 'io.netty', name: 'netty-codec-http', version: nettyVersion
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
-    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-zuul', version: springBootVersion
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: springBootVersion
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-zuul', version: springCloudZuulVersion
     compile group: 'org.postgresql', name: 'postgresql', version: postgresqlVersion
-    compile (group: 'org.herddb', name: 'herddb-jdbc', version: herddbVersion) {
+    compile(group: 'org.herddb', name: 'herddb-jdbc', version: herddbVersion) {
         exclude group: 'org.slf4j', module: 'slf4j-jdk14'
-        }
+    }
     compile group: 'javax.validation', name: 'validation-api', version: javaxValidationVersion
     compile group: 'org.hibernate', name: 'hibernate-validator', 'version': hibernateValidatorVersion
     compile group: 'io.jsonwebtoken', name: 'jjwt-api', version: jsonWebTokenApiVersion
@@ -127,15 +137,16 @@ dependencies {
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: swaggeruiVersion
     compile group: 'org.apache.pulsar', name: 'pulsar-broker', version: pulsarVersion
     compile group: 'commons-validator', name: 'commons-validator', version: commonsValidatorVersion
-    compile (group: 'org.bkvm', name: 'bkvm', version: bkvmVersion, ext: 'war', classifier:'war-no-libs') {
+    compile(group: 'org.bkvm', name: 'bkvm', version: bkvmVersion, ext: 'war', classifier: 'war-no-libs') {
         exclude group: 'org.slf4j', module: 'slf4j-jdk14'
         exclude group: 'org.herddb', module: '*'
     }
-    compile (group: 'org.bkvm', name: 'bkvm', version: bkvmVersion, classifier:'classes') {
+    compile(group: 'org.bkvm', name: 'bkvm', version: bkvmVersion, classifier: 'classes') {
         exclude group: 'org.slf4j', module: 'slf4j-jdk14'
         exclude group: 'org.herddb', module: '*'
     }
-    compile (group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version: tomcatVersion)
+    compile group: 'org.ehcache', name: 'ehcache', version: '3.10.0'
+    compile(group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version: tomcatVersion)
     compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet', version: jerseyVersion
     compile group: 'org.glassfish.jersey.core', name: 'jersey-client', version: jerseyVersion
     compile group: 'org.glassfish.jersey.inject', name: 'jersey-hk2', version: jerseyVersion
