@@ -63,7 +63,7 @@ public class SwaggerConfig {
     }
 
     private List<ApiKey> securitySchemes() {
-        List<ApiKey> arrayList = new ArrayList();
+        List<ApiKey> arrayList = new ArrayList<>();
         arrayList.add(new ApiKey(TOKEN, TOKEN, HEADER));
         arrayList.add(new ApiKey(USERNAME, USERNAME, HEADER));
         arrayList.add(new ApiKey(ENVIRONMENT, ENVIRONMENT, HEADER));
@@ -71,7 +71,7 @@ public class SwaggerConfig {
     }
 
     private List<SecurityContext> securityContexts() {
-        List<SecurityContext> securityContextsList = new ArrayList();
+        List<SecurityContext> securityContextsList = new ArrayList<>();
         securityContextsList.add(SecurityContext.builder()
                 .securityReferences(defaultAuth())
                 .forPaths(PathSelectors.regex("/.*"))

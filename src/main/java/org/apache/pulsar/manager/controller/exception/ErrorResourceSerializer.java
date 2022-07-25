@@ -26,13 +26,13 @@ import java.util.Map;
 
 public class ErrorResourceSerializer extends JsonSerializer<ErrorResource> {
     @Override
-    public void serialize(ErrorResource value, JsonGenerator gen, SerializerProvider serializers) throws IOException, JsonProcessingException {
+    public void serialize(ErrorResource value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
         Map<String, List<String>> json = new HashMap<>();
         gen.writeStartObject();
         gen.writeObjectFieldStart("errors");
         for (FieldErrorResource fieldErrorResource : value.getFieldErrors()) {
             if (!json.containsKey(fieldErrorResource.getField())) {
-                json.put(fieldErrorResource.getField(), new ArrayList<String>());
+                json.put(fieldErrorResource.getField(), new ArrayList<>());
             }
             json.get(fieldErrorResource.getField()).add(fieldErrorResource.getMessage());
         }
@@ -51,4 +51,3 @@ public class ErrorResourceSerializer extends JsonSerializer<ErrorResource> {
         gen.writeEndObject();
     }
 }
-

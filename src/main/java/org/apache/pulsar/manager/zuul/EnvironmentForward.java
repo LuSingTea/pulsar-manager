@@ -77,10 +77,7 @@ public class EnvironmentForward extends ZuulFilter {
         HttpServletRequest request = ctx.getRequest();
         String redirect = request.getParameter("redirect");
 
-        String requestUri = request.getServletPath();
         request.getServletPath();
-        String token = request.getHeader("token");
-
 
         if (redirect != null && redirect.equals("true")) {
             String redirectScheme = request.getParameter("redirect.scheme");

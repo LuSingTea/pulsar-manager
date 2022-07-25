@@ -38,6 +38,7 @@ public class TenantEntity {
 
     @SerializedName("admin_roles")
     private String adminRoles;
+
     @SerializedName("allowed_clusters")
     private String allowedClusters;
 

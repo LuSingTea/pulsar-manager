@@ -2,9 +2,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class JwtServiceImpl implements JwtService {
 
-    private int sessionTime;
+    private final int sessionTime;
 
     @Value("${jwt.broker.token.mode}")
     private String jwtBrokerTokenMode;
@@ -79,7 +79,7 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private Date expireTimeFromNow() {
-        return new Date(System.currentTimeMillis() + sessionTime * 1000);
+        return new Date(System.currentTimeMillis() + sessionTime * 1000L);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class JwtServiceImpl implements JwtService {
         Key signingKey;
         if (jwtBrokerTokenMode.equals("SECRET")) {
             signingKey = decodeBySecretKey();
-        } else if (jwtBrokerTokenMode.equals("PRIVATE")){
+        } else if (jwtBrokerTokenMode.equals("PRIVATE")) {
             signingKey = decodeByPrivateKey();
         } else {
             log.info("Default disable JWT auth, please set jwt.broker.token.mode.");
@@ -149,15 +149,15 @@ public class JwtServiceImpl implements JwtService {
         Key validationKey;
         if (jwtBrokerTokenMode.equals("SECRET")) {
             validationKey = decodeBySecretKey();
-        } else if (jwtBrokerTokenMode.equals("PRIVATE")){
+        } else if (jwtBrokerTokenMode.equals("PRIVATE")) {
             validationKey = decodeByPrivateKey();
         } else {
             log.info("Default disable JWT auth, please set jwt.broker.token.mode.");
             return null;
         }
-        Jwt<?, Claims> jwt = Jwts.parser()
+        Jwt<?, Claims> jwt = Jwts.parserBuilder()
                 .setSigningKey(validationKey)
-                .parse(token);
+                .build().parse(token);
         return jwt.getBody();
     }
 }

@@ -2,9 +2,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -61,9 +61,9 @@ public class HttpUtil {
 
     private static CloseableHttpClient httpClient;
 
-    private static int CONNECTION_TIMEOUT = 28 * 1000;
+    private static final int CONNECTION_TIMEOUT = 28 * 1000;
 
-    private static int SO_TIMEOUT = 28 * 1000;
+    private static final int SO_TIMEOUT = 28 * 1000;
 
     public static PoolingHttpClientConnectionManager cm = null;
 
@@ -97,7 +97,7 @@ public class HttpUtil {
                     if (!tlsHostnameVerifier) {
                         return true;
                     } else {
-                        HostnameVerifier hv= HttpsURLConnection.getDefaultHostnameVerifier();
+                        HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();
                         return hv.verify(s, sslSession);
                     }
                 };
@@ -130,7 +130,7 @@ public class HttpUtil {
         }
     }
 
-    public static String doGet(String url, Map<String, String> header){
+    public static String doGet(String url, Map<String, String> header) {
         HttpGet request = new HttpGet(url);
         return httpRequest(request, header);
     }
@@ -160,10 +160,10 @@ public class HttpUtil {
     public static String httpRequest(HttpUriRequest request, Map<String, String> header) {
         CloseableHttpResponse response = null;
         try {
-            for (Map.Entry<String, String> entry: header.entrySet()) {
+            for (Map.Entry<String, String> entry : header.entrySet()) {
                 request.setHeader(entry.getKey(), entry.getValue());
             }
-            if (httpClient == null ) {
+            if (httpClient == null) {
                 initHttpClient();
             }
             response = httpClient.execute(request);
@@ -179,11 +179,11 @@ public class HttpUtil {
             log.error("http request exception message: {}, http request error stack: {}",
                     cause.getMessage(), cause.getCause());
         } finally {
-            try{
+            try {
                 if (response != null) {
                     response.close();
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 log.error("Don't handle exception: {}", e.getMessage());
             }
 
