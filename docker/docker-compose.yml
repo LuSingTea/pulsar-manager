@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   pulsar:
-    image: apachepulsar/pulsar:2.6.0
+    image: apachepulsar/pulsar:2.8.0
     command: bin/pulsar standalone
     hostname: pulsar
     ports:
@@ -11,7 +11,7 @@ services:
     volumes:
       - "./data/:/pulsar/data"
   dashboard:
-    image: apachepulsar/pulsar-manager:v0.2.0
+    image: apachepulsar/pulsar-manager:v0.3.0
     ports:
       - "9527:9527"
       - "7750:7750"
